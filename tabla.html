@@ -17,10 +17,25 @@
       a.btn {
         font-size: 35px;
       }
+
+      .titulo-tabla {
+        position: relative;
+        display: inline-block;
+      }
+      .titulo-tabla::after {
+        content: "";
+        position: absolute;
+        left: -10px; /* Se sale 10px a la izquierda */
+        bottom: -18px; /* Separación debajo del texto */
+        width: 30%; /* Solo 30% del ancho del h1 */
+        height: 4px; /* Grosor de la línea */
+        background-color: #facc15; /* Amarillo (Tailwind amber-400) */
+        border-radius: 2px;
+      }
     </style>
   </head>
   <body class="p-4">
-    <h1 class="mb-4">Códigos escaneados</h1>
+    <h1 class="mb-5 titulo-tabla">Códigos escaneados</h1>
 
     <table class="table table-striped mb-4">
       <thead>
