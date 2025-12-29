@@ -71,6 +71,8 @@ async function loadCameraOptions() {
 // -----------------------------
 
 function onScanSuccess(decodedText) {
+    if (html5QrCode.isScanning) { html5QrCode.pause(); }
+
     const lista = JSON.parse(localStorage.getItem("codigos")) || [];
     lista.push({ codigo: decodedText, fecha: new Date().toLocaleString() });
     localStorage.setItem("codigos", JSON.stringify(lista));
@@ -89,6 +91,8 @@ function onScanFailure(error) {
 
 document.getElementById("btnStart").addEventListener("click", startDefaultCamera);
 document.getElementById("btnStop").addEventListener("click", stopCamera);
+
+document.getElementById("codigoModal").addEventListener("hidden.bs.modal", () => { if (html5QrCode.isScanning) { html5QrCode.resume(); } });
 
 // Cuando el usuario selecciona una cámara del select
 document.getElementById("selectCamaras").addEventListener("change", async (e) => {
