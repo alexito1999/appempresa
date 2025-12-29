@@ -16,10 +16,11 @@ body {
 
 .wrapper {
   border: 2px solid var(--bs-gray-300);
-  width: 500px;
+  width: 450px;
   padding: 15px;
   margin: auto;
 }
+
 #qr-shaded-region div {
   background-color: var(--bs-white) !important;
 }
