@@ -47,24 +47,28 @@ async function startCamera() {
 }
 
 // Detener cámara
-function stopCamera() {
-    html5QrCode.stop();
+async function stopCamera() {
+    if (html5QrCode.isScanning) {
+        await html5QrCode.stop();
+    }
 }
 
 // Listar cámaras en pantalla
-async function listCameras() {
-    const devices = await getCameras();
-    if (!devices) return;
 
-    const listCameras = document.getElementById("list-camaras");
-    listCameras.innerHTML = "";
-
-    devices.forEach(device => {
+document.getElementById("btnListar").addEventListener("click", async () => {
+    const devices = await getCameras(); if (!devices) return;
+    const list = document.getElementById("list-camaras");
+    list.innerHTML = ""; devices.forEach(device => {
         const li = document.createElement("li");
+        li.className = "list-group-item list-group-item-action";
         li.textContent = device.label || `Cámara ${device.id}`;
-        listCameras.appendChild(li);
+        li.addEventListener("click", async () => {
+            if (html5QrCode.isScanning) { await html5QrCode.stop(); }
+            await startCamera(device.id);
+        });
+        list.appendChild(li);
     });
-}
+});
 
 // -----------------------------
 // 📌 CALLBACKS DEL ESCÁNER
@@ -87,4 +91,3 @@ function onScanFailure(error) {
 
 document.getElementById("btnStart").addEventListener("click", startCamera);
 document.getElementById("btnStop").addEventListener("click", stopCamera);
-document.getElementById("btnListar").addEventListener("click", listCameras);
