@@ -26,17 +26,9 @@ async function getCameras() {
     return devices;
 }
 
-// Seleccionar cámara (por ahora la primera)
-function selectDefaultCamera(devices) {
-    return devices[0].id;
-}
-
-// Iniciar cámara
-async function startCamera() {
-    const devices = await getCameras();
-    if (!devices) return;
-
-    currentCameraId = selectDefaultCamera(devices);
+// Iniciar cámara con un ID específico
+async function startCamera(cameraId) {
+    currentCameraId = cameraId;
 
     await html5QrCode.start(
         currentCameraId,
@@ -46,6 +38,15 @@ async function startCamera() {
     );
 }
 
+// Iniciar cámara por defecto
+async function startDefaultCamera() {
+    const devices = await getCameras();
+    if (!devices) return;
+
+    const defaultId = devices[0].id;
+    await startCamera(defaultId);
+}
+
 // Detener cámara
 async function stopCamera() {
     if (html5QrCode.isScanning) {
@@ -53,19 +54,27 @@ async function stopCamera() {
     }
 }
 
-// Listar cámaras en pantalla
+// -----------------------------
+// 📌 LISTAR CÁMARAS + SELECCIONAR
+// -----------------------------
 
 document.getElementById("btnListar").addEventListener("click", async () => {
-    const devices = await getCameras(); if (!devices) return;
+    const devices = await getCameras();
+    if (!devices) return;
+
     const list = document.getElementById("list-camaras");
-    list.innerHTML = ""; devices.forEach(device => {
+    list.innerHTML = "";
+
+    devices.forEach(device => {
         const li = document.createElement("li");
         li.className = "list-group-item list-group-item-action";
         li.textContent = device.label || `Cámara ${device.id}`;
+
         li.addEventListener("click", async () => {
-            if (html5QrCode.isScanning) { await html5QrCode.stop(); }
+            await stopCamera();
             await startCamera(device.id);
         });
+
         list.appendChild(li);
     });
 });
@@ -74,11 +83,11 @@ document.getElementById("btnListar").addEventListener("click", async () => {
 // 📌 CALLBACKS DEL ESCÁNER
 // -----------------------------
 
-function onScanSuccess(decodedText) {
+async function onScanSuccess(decodedText) {
     document.getElementById("result").textContent =
         "Código detectado: " + decodedText;
 
-    stopCamera();
+    await stopCamera();
 }
 
 function onScanFailure(error) {
@@ -89,5 +98,5 @@ function onScanFailure(error) {
 // 📌 EVENTOS DE BOTONES
 // -----------------------------
 
-document.getElementById("btnStart").addEventListener("click", startCamera);
+document.getElementById("btnStart").addEventListener("click", startDefaultCamera);
 document.getElementById("btnStop").addEventListener("click", stopCamera);
