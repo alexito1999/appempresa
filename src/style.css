@@ -23,3 +23,21 @@ body {
 #qr-shaded-region div {
   background-color: var(--bs-white) !important;
 }
+
+#list-camaras {
+  margin-top: 18px;
+  height: 20px;
+}
+#list-camaras li:hover {
+  background-color: var(--bs-gray-400);
+  cursor: pointer;
+  padding: 8px;
+}
+
+ul,
+li,
+ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
