@@ -1,9 +1,14 @@
 body {
   font-family: Arial, sans-serif;
-  padding: 20px;
-  box-sizing: content-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
-
+#app {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
 .botones {
   font-size: 16px;
   cursor: pointer;
@@ -16,7 +21,8 @@ body {
 
 .wrapper {
   border: 2px solid var(--bs-gray-300);
-  width: 450px;
+  width: 100%;
+  max-width: 500px;
   padding: 15px;
   margin: auto;
 }
@@ -25,14 +31,9 @@ body {
   background-color: var(--bs-white) !important;
 }
 
-#list-camaras {
-  margin-top: 18px;
-  height: 20px;
-}
-#list-camaras li:hover {
-  background-color: var(--bs-gray-400);
-  cursor: pointer;
-  padding: 8px;
+#selectCamaras option {
+  background-color: var(--bs-gray-100) !important;
+  color: var(--bs-dark);
 }
 
 ul,
