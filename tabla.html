@@ -7,11 +7,16 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
     />
+    <style>
+      td {
+        font-size: 20px;
+      }
+    </style>
   </head>
   <body class="p-4">
-    <h2 class="mb-4">Códigos escaneados</h2>
+    <h1 class="mb-4">Códigos escaneados</h1>
 
-    <table class="table table-striped">
+    <table class="table table-striped mb-4">
       <thead>
         <tr>
           <th>Código</th>
@@ -28,15 +33,21 @@
       const lista = JSON.parse(localStorage.getItem("codigos")) || [];
       const tbody = document.getElementById("tablaCodigos");
 
-      lista.forEach((item) => {
+      lista.forEach((item, index) => {
         const tr = document.createElement("tr");
-
-        tr.innerHTML = `
-        <td>${item.codigo}</td>
-        <td>${item.fecha}</td>
-      `;
-
+        tr.innerHTML = ` <td>${item.codigo}</td> <td>${item.fecha}</td> <td> <button class="btn btn-danger btn-sm borrar" data-index="${index}"> Borrar </button> </td> `;
         tbody.appendChild(tr);
+      });
+      document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("borrar")) {
+          const index = e.target.getAttribute("data-index");
+          if (confirm("¿Seguro que quieres borrar este código?")) {
+            const lista = JSON.parse(localStorage.getItem("codigos")) || [];
+            lista.splice(index, 1);
+            localStorage.setItem("codigos", JSON.stringify(lista));
+            location.reload();
+          }
+        }
       });
     </script>
   </body>

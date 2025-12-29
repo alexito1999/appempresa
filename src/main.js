@@ -76,9 +76,10 @@ function onScanSuccess(decodedText) {
     const lista = JSON.parse(localStorage.getItem("codigos")) || [];
     lista.push({ codigo: decodedText, fecha: new Date().toLocaleString() });
     localStorage.setItem("codigos", JSON.stringify(lista));
-    document.getElementById("codigoDetectado").textContent = decodedText; const modal = new Modal(document.getElementById("codigoModal"));
+
+    document.getElementById("codigoDetectado").textContent = decodedText;
+    const modal = new Modal(document.getElementById("codigoModal"));
     modal.show();
-    stopCamera();
 }
 
 function onScanFailure(error) {
