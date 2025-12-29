@@ -29,21 +29,19 @@ function onScanSuccess(decodedText) {
 
 function onScanFailure(error) { }
 
+
+
 document.getElementById("btnStart").addEventListener("click", async () => {
     // Pedir cámaras SOLO cuando el usuario pulsa el botón
     alert("Solicitando acceso a la cámara...");
     const devices = await Html5Qrcode.getCameras();
-
     if (!devices || devices.length === 0) {
-        alert("No se encontró cámara");
+        alert("No se encontraron cámaras.");
         return;
     }
 
-    const backCam = devices.find(d =>
-        d.label.toLowerCase().includes("back")
-    );
+    currentCameraId = devices[0].id; // Seleccionar la primera cámara disponible
 
-    currentCameraId = backCam ? backCam.id : devices[0].id;
 
     html5QrCode.start(
         currentCameraId,
