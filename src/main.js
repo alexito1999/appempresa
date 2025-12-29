@@ -1,22 +1,19 @@
 import { Html5Qrcode } from "html5-qrcode";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
-
-// Instancia del lector
+import { Modal } from "bootstrap"; // IMPORTANTE
 const html5QrCode = new Html5Qrcode("reader");
 let currentCameraId = null;
 
-// Configuración del lector
 const config = {
     fps: 10,
     qrbox: { width: 250, height: 250 }
 };
 
 // -----------------------------
-// 📌 FUNCIONES EXTRAÍDAS
+// 📌 FUNCIONES
 // -----------------------------
 
-// Obtener cámaras
 async function getCameras() {
     const devices = await Html5Qrcode.getCameras();
     if (!devices || devices.length === 0) {
@@ -26,7 +23,6 @@ async function getCameras() {
     return devices;
 }
 
-// Iniciar cámara con un ID específico
 async function startCamera(cameraId) {
     currentCameraId = cameraId;
 
@@ -38,16 +34,13 @@ async function startCamera(cameraId) {
     );
 }
 
-// Iniciar cámara por defecto
 async function startDefaultCamera() {
     const devices = await getCameras();
     if (!devices) return;
 
-    const defaultId = devices[0].id;
-    await startCamera(defaultId);
+    await startCamera(devices[0].id);
 }
 
-// Detener cámara
 async function stopCamera() {
     if (html5QrCode.isScanning) {
         await html5QrCode.stop();
@@ -55,38 +48,32 @@ async function stopCamera() {
 }
 
 // -----------------------------
-// 📌 LISTAR CÁMARAS + SELECCIONAR
+// 📌 LLENAR SELECT DE CÁMARAS
 // -----------------------------
 
-document.getElementById("btnListar").addEventListener("click", async () => {
+async function loadCameraOptions() {
     const devices = await getCameras();
     if (!devices) return;
 
-    const list = document.getElementById("list-camaras");
-    list.innerHTML = "";
+    const select = document.getElementById("selectCamaras");
+    select.innerHTML = `<option value="">Selecciona una cámara...</option>`;
 
     devices.forEach(device => {
-        const li = document.createElement("li");
-        li.className = "list-group-item list-group-item-action";
-        li.textContent = device.label || `Cámara ${device.id}`;
-
-        li.addEventListener("click", async () => {
-            await stopCamera();
-            await startCamera(device.id);
-        });
-
-        list.appendChild(li);
+        const option = document.createElement("option");
+        option.value = device.id;
+        option.textContent = device.label || `Cámara ${device.id}`;
+        select.appendChild(option);
     });
-});
+}
 
 // -----------------------------
 // 📌 CALLBACKS DEL ESCÁNER
 // -----------------------------
 
 async function onScanSuccess(decodedText) {
-    document.getElementById("result").textContent =
-        "Código detectado: " + decodedText;
-
+    document.getElementById("codigoDetectado").textContent = decodedText;
+    const modal = new Modal(document.getElementById("codigoModal"));
+    modal.show();
     await stopCamera();
 }
 
@@ -95,8 +82,21 @@ function onScanFailure(error) {
 }
 
 // -----------------------------
-// 📌 EVENTOS DE BOTONES
+// 📌 EVENTOS
 // -----------------------------
 
 document.getElementById("btnStart").addEventListener("click", startDefaultCamera);
 document.getElementById("btnStop").addEventListener("click", stopCamera);
+
+// Cuando el usuario selecciona una cámara del select
+document.getElementById("selectCamaras").addEventListener("change", async (e) => {
+    const cameraId = e.target.value;
+
+    if (!cameraId) return;
+
+    await stopCamera();
+    await startCamera(cameraId);
+});
+
+// Cargar cámaras al iniciar la página
+loadCameraOptions();

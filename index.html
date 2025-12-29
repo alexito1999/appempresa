@@ -20,8 +20,39 @@
           </div>
 
           <button class="botones col-12" id="btnListar">Listar cámaras</button>
-          <ul id="list-camaras"></ul>
+          <select id="selectCamaras" class="form-select mt-3">
+            <option value="">Selecciona una cámara...</option>
+          </select>
           <p id="result"></p>
+        </div>
+      </div>
+      <!-- Modal Bootstrap -->
+      <div class="modal fade" id="codigoModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Código detectado</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+
+            <div class="modal-body">
+              <p id="codigoDetectado" class="fw-bold fs-4 text-center"></p>
+            </div>
+
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+              >
+                Aceptar
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
