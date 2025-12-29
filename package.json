@@ -12,6 +12,7 @@
     "vite": "^7.2.4"
   },
   "dependencies": {
+    "bootstrap": "^5.3.8",
     "html5-qrcode": "^2.3.8"
   }
 }
