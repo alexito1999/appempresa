@@ -31,6 +31,7 @@ function onScanFailure(error) { }
 
 document.getElementById("btnStart").addEventListener("click", async () => {
     // Pedir cámaras SOLO cuando el usuario pulsa el botón
+    alert("Solicitando acceso a la cámara...");
     const devices = await Html5Qrcode.getCameras();
 
     if (!devices || devices.length === 0) {
