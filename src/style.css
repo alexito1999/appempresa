@@ -30,10 +30,22 @@ body {
 #qr-shaded-region div {
   background-color: var(--bs-white) !important;
 }
-
+/* 
 #selectCamaras option {
-  background-color: var(--bs-gray-100) !important;
+  background-color: var(--bs-white) !important;
   color: var(--bs-dark);
+} */
+#selectCamaras option:hover {
+  background-color: var(--bs-gray-100) !important;
+  color: var(--bs-white);
+}
+#selectCamaras option:checked {
+  background-color: #10b981; /* verde */
+  color: white;
+}
+#selectCamaras option:active {
+  background-color: #f59e0b; /* naranja */
+  color: white;
 }
 
 ul,
