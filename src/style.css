@@ -66,6 +66,9 @@ ol {
   transform: scale(1.2);
   transition: all 0.3s ease;
 }
+.icon svg {
+  color: var(--bs-primary);
+}
 footer {
   position: fixed;
   display: flex;
