@@ -1,7 +1,11 @@
+import { isMobile, isTablet, isDesktop } from "./dispositivo.js";
 import { Html5Qrcode } from "html5-qrcode";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 import { Modal } from "bootstrap"; // IMPORTANTE
+
+
 const html5QrCode = new Html5Qrcode("reader");
 let currentCameraId = null;
 
@@ -17,7 +21,7 @@ const config = {
 async function getCameras() {
     const devices = await Html5Qrcode.getCameras();
     if (!devices || devices.length === 0) {
-        alert("No se encontraron cámaras.");
+        console.log("No se encontraron cámaras.");
         return null;
     }
     return devices;
@@ -36,9 +40,12 @@ async function startCamera(cameraId) {
 
 async function startDefaultCamera() {
     const devices = await getCameras();
-    if (!devices) return;
-
-    await startCamera(devices[0].id);
+    if (!devices || devices.length === 0) return;
+    let cameraId = devices[0].id;
+    if (isMobile() || isTablet()) {
+        if (devices[1]) { cameraId = devices[1].id; }
+    }
+    await startCamera(cameraId);
 }
 
 async function stopCamera() {
