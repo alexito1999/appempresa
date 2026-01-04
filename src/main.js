@@ -1,10 +1,10 @@
 import { isMobile, isTablet, isDesktop } from "./dispositivo.js";
 import { Html5Qrcode } from "html5-qrcode";
 
-import { IconHome } from "../public/icons/IconHome.js";
-import { IconInventory } from "../public/icons/Iconinventory.js";
-import { IconTorch } from "../public/icons/IconTorch.js";
-import { IconClose } from "../public/icons/IconClose.js";
+import { IconHome } from "./icons/IconHome.js";
+import { IconInventory } from "./icons/Iconinventory.js";
+import { IconTorch } from "./icons/IconTorch.js";
+import { IconClose } from "./icons/IconClose.js";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
@@ -137,7 +137,7 @@ function onScanFailure(error) {
 
 /* document.getElementById("btnStart").addEventListener("click", startDefaultCamera);
 document.getElementById("btnStop").addEventListener("click", stopCamera); */
-document.getElementById("torch").addEventListener("click", toggleTorch.bind(null, true));
+document.getElementById("torch").addEventListener("click", toggleTorch);
 document.getElementById("codigoModal").addEventListener("hidden.bs.modal", () => { if (html5QrCode.isScanning) { html5QrCode.resume(); } });
 
 // Cuando el usuario selecciona una cámara del select
@@ -153,8 +153,11 @@ document.getElementById("selectCamaras").addEventListener("change", async (e) =>
 // Cargar cámaras al iniciar la página
 loadCameraOptions();
 
+document.addEventListener("DOMContentLoaded", () => {
+/*     document.getElementById("home").innerHTML = IconHome();
+ */    document.getElementById("torch").innerHTML = IconTorch();
+    document.getElementById("headerClose").innerHTML = IconClose();
+    document.getElementById("headerInventory").innerHTML = IconInventory();
+});
 
-document.getElementById("home").innerHTML = IconHome();
-document.getElementById("torch").innerHTML = IconTorch();
-document.getElementById("headerClose").innerHTML = IconClose();
-document.getElementById("headerInventory").innerHTML = IconInventory();
+
