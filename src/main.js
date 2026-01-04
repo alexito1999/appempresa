@@ -23,39 +23,22 @@ const config = {
 // 📌 FUNCIONES
 // -----------------------------
 
-let stream;
-
-async function toggleTorch(on) {
+let stream = null; let torchOn = false;
+async function toggleTorch() {
     try {
-        // Abrir cámara trasera
-        stream = await navigator.mediaDevices.getUserMedia({
-            video: {
-                facingMode: "environment",
-                width: { ideal: 1280 },
-                height: { ideal: 720 },
-                advanced: [{ torch: on }]
-            }
-        });
-
+        if (isDesktop()) { console.log("Torch no disponible en PC"); return; }
+        if (!stream) {
+            stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } } });
+        }
         const track = stream.getVideoTracks()[0];
-
-        // Comprobar si soporta torch
         const capabilities = track.getCapabilities();
         if (!capabilities.torch) {
             console.log("Torch no soportado en este dispositivo");
             return;
-        }
-
-        // Encender o apagar
-        await track.applyConstraints({
-            advanced: [{ torch: on }]
-        });
-
-    } catch (err) {
-        console.error("Error al controlar la linterna:", err);
-    }
+        } torchOn = !torchOn; await track.applyConstraints({ advanced: [{ torch: torchOn }] });
+        console.log("Torch:", torchOn ? "ON" : "OFF");
+    } catch (err) { console.error("Error al controlar la linterna:", err); }
 }
-
 async function getCameras() {
     const devices = await Html5Qrcode.getCameras();
     if (!devices || devices.length === 0) {
