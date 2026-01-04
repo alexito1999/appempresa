@@ -1,6 +1,11 @@
 import { isMobile, isTablet, isDesktop } from "./dispositivo.js";
 import { Html5Qrcode } from "html5-qrcode";
 
+import { IconHome } from "../public/icons/IconHome.js";
+import { IconInventory } from "../public/icons/Iconinventory.js";
+import { IconTorch } from "../public/icons/IconTorch.js";
+import { IconClose } from "../public/icons/IconClose.js";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 import { Modal } from "bootstrap"; // IMPORTANTE
@@ -17,6 +22,39 @@ const config = {
 // -----------------------------
 // 📌 FUNCIONES
 // -----------------------------
+
+let stream;
+
+async function toggleTorch(on) {
+    try {
+        // Abrir cámara trasera
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: "environment",
+                width: { ideal: 1280 },
+                height: { ideal: 720 },
+                advanced: [{ torch: on }]
+            }
+        });
+
+        const track = stream.getVideoTracks()[0];
+
+        // Comprobar si soporta torch
+        const capabilities = track.getCapabilities();
+        if (!capabilities.torch) {
+            console.log("Torch no soportado en este dispositivo");
+            return;
+        }
+
+        // Encender o apagar
+        await track.applyConstraints({
+            advanced: [{ torch: on }]
+        });
+
+    } catch (err) {
+        console.error("Error al controlar la linterna:", err);
+    }
+}
 
 async function getCameras() {
     const devices = await Html5Qrcode.getCameras();
@@ -97,9 +135,9 @@ function onScanFailure(error) {
 // 📌 EVENTOS
 // -----------------------------
 
-document.getElementById("btnStart").addEventListener("click", startDefaultCamera);
-document.getElementById("btnStop").addEventListener("click", stopCamera);
-
+/* document.getElementById("btnStart").addEventListener("click", startDefaultCamera);
+document.getElementById("btnStop").addEventListener("click", stopCamera); */
+document.getElementById("torch").addEventListener("click", toggleTorch.bind(null, true));
 document.getElementById("codigoModal").addEventListener("hidden.bs.modal", () => { if (html5QrCode.isScanning) { html5QrCode.resume(); } });
 
 // Cuando el usuario selecciona una cámara del select
@@ -114,3 +152,9 @@ document.getElementById("selectCamaras").addEventListener("change", async (e) =>
 
 // Cargar cámaras al iniciar la página
 loadCameraOptions();
+
+
+document.getElementById("home").innerHTML = IconHome();
+document.getElementById("torch").innerHTML = IconTorch();
+document.getElementById("headerClose").innerHTML = IconClose();
+document.getElementById("headerInventory").innerHTML = IconInventory();

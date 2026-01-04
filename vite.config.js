@@ -5,7 +5,8 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 main: resolve(__dirname, "index.html"),
-                tabla: resolve(__dirname, "src/tabla.html")
+                tabla: resolve(__dirname, "src/tabla.html"),
+                scanner: resolve(__dirname, "src/scanner.html")
             }
         }
     }

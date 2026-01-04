@@ -1,3 +1,8 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
 body {
   font-family: Arial, sans-serif;
   padding: 0;
@@ -5,9 +10,40 @@ body {
   box-sizing: border-box;
 }
 #app {
+  width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
+}
+
+ul,
+li,
+ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#header {
+  font-size: 24px;
+  background-color: var(--bs-pink);
+  text-align: center;
+}
+
+.headerIcon {
+  color: var(--bs-white);
+}
+.icon-XL:hover {
+  filter: brightness(1.2);
+  transform: scale(1.5);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.icon-S:hover {
+  filter: brightness(1.2);
+  transform: scale(1.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 .botones {
   font-size: 16px;
@@ -20,21 +56,18 @@ body {
 }
 
 .wrapper {
-  border: 2px solid var(--bs-gray-300);
   width: 100%;
   max-width: 500px;
-  padding: 15px;
-  margin: auto;
 }
 
 #qr-shaded-region div {
   background-color: var(--bs-white) !important;
 }
-/* 
+
 #selectCamaras option {
   background-color: var(--bs-white) !important;
   color: var(--bs-dark);
-} */
+}
 #selectCamaras option:hover {
   background-color: var(--bs-gray-100) !important;
   color: var(--bs-white);
@@ -48,15 +81,7 @@ body {
   color: white;
 }
 
-ul,
-li,
-ol {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.icon {
+.boxIcon {
   height: 50px;
   width: 50px;
   cursor: pointer;
@@ -64,14 +89,14 @@ ol {
   border-radius: 50%;
   padding: 5px;
   background-color: var(--bs-primary);
-  fill: var(--bs-white);
+  /*   fill: var(--bs-white);
+ */
   filter: brightness(1);
+  color: var(--bs-white);
 }
-.icon:hover {
-  filter: brightness(1.2);
-
-  transform: scale(1.5);
-  transition: all 0.3s ease;
+.boxIcon svg {
+  width: 100%;
+  height: 100%;
 }
 
 footer {
