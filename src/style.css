@@ -1,11 +1,18 @@
 #reader {
   width: 100vw;
-  height: 100vw; /* cuadrado perfecto */
+  height: 100vw;
   max-width: 600px;
   max-height: 600px;
   margin: 0 auto;
+  position: relative;
+  overflow: hidden;
 }
-
+#reader video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  aspect-ratio: 1 / 1 !important;
+}
 #camera-container {
   flex: 1;
   overflow: hidden;
