@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./stylesGenerics.css" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Language" content="es" />
+    <title>appempresa</title>
+  </head>
+  <body>
+    <div
+      id="header"
+      class="w-100 d-flex justify-content-between align-items-center p-3"
+    >
+      <a href="../index.html" id="headerClose" class="headerIcon icon-S"> </a>
+      <a href="./tabla.html" id="headerInventory" class="headerIcon icon-S"></a>
+      <div id="torch" class="headerIcon icon-S"></div>
+    </div>
+    <div id="camera-container">
+      <div id="reader"></div>
+    </div>
+    <!-- Modal Bootstrap -->
+    <div class="modal fade" id="codigoModal" tabindex="-1">
+      <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Código detectado</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <p id="codigoDetectado" class="fw-bold fs-4 text-center"></p>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- FOOTER -->
+    <!--       <footer>
+        <a href="/index.html" class="boxIcon icon-XL" id="home"> </a>
+        <a href="./src/tabla.html" class="boxIcon icon-XL" id="inventory"> </a>
+      </footer> -->
+
+    <script type="module" src="./dispositivo.js"></script>
+    <script type="module" src="./scanner.js"></script>
+  </body>
+</html>

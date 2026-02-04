@@ -1,146 +1,69 @@
-import { isMobile, isTablet, isDesktop } from "./dispositivo.js";
-import { Html5Qrcode } from "html5-qrcode";
+import { Modal } from "bootstrap";
 
-import { IconHome } from "./icons/IconHome.js";
-import { IconInventory } from "./icons/Iconinventory.js";
-import { IconTorch } from "./icons/IconTorch.js";
-import { IconClose } from "./icons/IconClose.js";
+const modal = new Modal(document.getElementById("trackerFormModal"));
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap";
-import { Modal } from "bootstrap"; // IMPORTANTE
-
-
-const html5QrCode = new Html5Qrcode("reader");
-let currentCameraId = null;
-
-const config = {
-    fps: 10,
-    qrbox: { width: 250, height: 250 }
-};
-
-// -----------------------------
-// 📌 FUNCIONES
-// -----------------------------
-
-let stream = null; let torchOn = false;
-async function toggleTorch() {
-    try {
-        if (isDesktop()) { console.log("Torch no disponible en PC"); return; }
-        if (!stream) {
-            stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } } });
-        }
-        const track = stream.getVideoTracks()[0];
-        const capabilities = track.getCapabilities();
-        if (!capabilities.torch) {
-            console.log("Torch no soportado en este dispositivo");
-            return;
-        } torchOn = !torchOn; await track.applyConstraints({ advanced: [{ torch: torchOn }] });
-        console.log("Torch:", torchOn ? "ON" : "OFF");
-    } catch (err) { console.error("Error al controlar la linterna:", err); }
-}
-async function getCameras() {
-    const devices = await Html5Qrcode.getCameras();
-    if (!devices || devices.length === 0) {
-        console.log("No se encontraron cámaras.");
-        return null;
-    }
-    return devices;
-}
-
-async function startCamera(cameraId) {
-    currentCameraId = cameraId;
-
-    await html5QrCode.start(
-        currentCameraId,
-        config,
-        onScanSuccess,
-        onScanFailure
-    );
-}
-
-async function startDefaultCamera() {
-    const devices = await getCameras();
-    if (!devices || devices.length === 0) return;
-    let cameraId = devices[0].id;
-    if (isMobile() || isTablet()) {
-        if (devices[1]) { cameraId = devices[1].id; }
-    }
-    await startCamera(cameraId);
-}
-
-async function stopCamera() {
-    if (html5QrCode.isScanning) {
-        await html5QrCode.stop();
-    }
-}
-
-// -----------------------------
-// 📌 LLENAR SELECT DE CÁMARAS
-// -----------------------------
-
-async function loadCameraOptions() {
-    const devices = await getCameras();
-    if (!devices) return;
-
-    const select = document.getElementById("selectCamaras");
-    select.innerHTML = `<option value="">Selecciona una cámara...</option>`;
-
-    devices.forEach(device => {
-        const option = document.createElement("option");
-        option.value = device.id;
-        option.textContent = device.label || `Cámara ${device.id}`;
-        select.appendChild(option);
-    });
-}
-
-// -----------------------------
-// 📌 CALLBACKS DEL ESCÁNER
-// -----------------------------
-
-function onScanSuccess(decodedText) {
-    if (html5QrCode.isScanning) { html5QrCode.pause(); }
-
-    const lista = JSON.parse(localStorage.getItem("codigos")) || [];
-    lista.push({ codigo: decodedText, fecha: new Date().toLocaleString() });
-    localStorage.setItem("codigos", JSON.stringify(lista));
-
-    document.getElementById("codigoDetectado").textContent = decodedText;
-    const modal = new Modal(document.getElementById("codigoModal"));
+document.getElementById("btnScanTracker").addEventListener("click", () => {
     modal.show();
-}
-
-function onScanFailure(error) {
-    // Ignorar errores de escaneo
-}
-
-// -----------------------------
-// 📌 EVENTOS
-// -----------------------------
-
-/* document.getElementById("btnStart").addEventListener("click", startDefaultCamera);
-document.getElementById("btnStop").addEventListener("click", stopCamera); */
-document.getElementById("torch").addEventListener("click", toggleTorch);
-document.getElementById("codigoModal").addEventListener("hidden.bs.modal", () => { if (html5QrCode.isScanning) { html5QrCode.resume(); } });
-
-// Cuando el usuario selecciona una cámara del select
-document.getElementById("selectCamaras").addEventListener("change", async (e) => {
-    const cameraId = e.target.value;
-
-    if (!cameraId) return;
-
-    await stopCamera();
-    await startCamera(cameraId);
 });
 
-// Cargar cámaras al iniciar la página
-loadCameraOptions();
-
-document.addEventListener("DOMContentLoaded", () => {
-/*     document.getElementById("home").innerHTML = IconHome();
- */    document.getElementById("torch").innerHTML = IconTorch();
-    document.getElementById("headerClose").innerHTML = IconClose();
-    document.getElementById("headerInventory").innerHTML = IconInventory();
+document.getElementById("startScanner").addEventListener("click", () => {
+    const trackerData = {
+        ct: document.getElementById("ct").value,
+        tipo: document.getElementById("tipoTracker").value,
+        numero: document.getElementById("numTracker").value,
+        nombre: document.getElementById("trackerName").value,
+    };
+    localStorage.setItem("trackerData", JSON.stringify(trackerData));
+    if (validateForm()) {
+        window.location.href = "./src/scanner.html";
+    } else {
+        alert("Por favor, complete todos los campos del formulario.");
+    }
 });
 
+function validateForm() {
+    const ct = document.getElementById("ct").value.trim();
+    const tipo = document.getElementById("tipoTracker").value.trim();
+    const num = document.getElementById("numTracker").value.trim();
+    return ct !== "" && tipo !== "" && num !== "";
+}
 
+function applyValidationClass(input, value) {
+    const isInteger = value !== "" && Number.isInteger(Number(value));
+    if (isInteger) {
+        input.classList.remove("invalido");
+        input.classList.add("valido");
+    } else {
+        input.classList.remove("valido");
+        input.classList.add("invalido");
+    }
+}
+function updateTrackerName() {
+/*     debugger;
+ */    const ctInput = document.getElementById("ct");
+    const tipoInput = document.getElementById("tipoTracker");
+    const numInput = document.getElementById("numTracker");
+
+    const ct = ctInput.value.trim();
+    const tipo = tipoInput.value.trim();
+    const num = numInput.value.trim();
+
+    const ctVal = ct !== "" ? ct : "?";
+    const tipoVal = tipo !== "" ? tipo : "?";
+    const numVal = num !== "" ? num : "?";
+
+    applyValidationClass(ctInput, ctVal);
+    applyValidationClass(tipoInput, tipoVal);
+    applyValidationClass(numInput, numVal);
+
+    document.getElementById("trackerName").value =
+        `Tr${ctVal}.${tipoVal}.${numVal}`;
+}
+
+document.getElementById("ct").addEventListener("input", updateTrackerName);
+document
+    .getElementById("tipoTracker")
+    .addEventListener("input", updateTrackerName);
+document
+    .getElementById("numTracker")
+    .addEventListener("input", updateTrackerName);

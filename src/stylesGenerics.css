@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column; /* CLAVE */
+  font-family: Arial, sans-serif;
+}
+
+ul,
+li,
+ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#header {
+  font-size: 24px;
+  background-color: var(--bs-pink);
+  text-align: center;
+}
