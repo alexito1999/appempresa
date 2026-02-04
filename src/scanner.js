@@ -18,7 +18,7 @@ const qrConfig = {
     fps: 10,
     qrbox: function (w, h) {
         const minEdge = Math.min(w, h);
-        const size = Math.floor(minEdge * 0.7);
+        const size = Math.floor(minEdge * 0.5);
         return { width: size, height: size };
     }
 };
