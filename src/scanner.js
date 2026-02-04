@@ -17,8 +17,7 @@ const cameraConfig = { facingMode: "environment" };
 const qrConfig = {
     fps: 10,
     qrbox: function (w, h) {
-        const minEdge = Math.min(w, h);
-        const size = Math.floor(minEdge * 0.5);
+        const size = Math.floor(w * 0.5);
         return { width: size, height: size };
     }
 };
