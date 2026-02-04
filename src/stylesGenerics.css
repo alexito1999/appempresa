@@ -23,4 +23,5 @@ ol {
   font-size: 24px;
   background-color: var(--bs-pink);
   text-align: center;
+  height: 10vh;
 }

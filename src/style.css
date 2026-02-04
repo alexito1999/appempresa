@@ -1,23 +1,21 @@
+/* EL READER OCUPA EL 90% RESTANTE */
 #reader {
-  width: 100vw;
-  height: 100vw;
-
-  margin: 0 auto;
-  position: relative;
+  height: 90vh;
+  width: 100%;
+  display: flex;
+  justify-content: center; /* centrar horizontal */
+  align-items: center; /* centrar vertical */
   overflow: hidden;
+  position: relative;
 }
+
+/* EL VIDEO DEBE SER CUADRADO */
 #reader video {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
   aspect-ratio: 1 / 1 !important;
-}
-#camera-container {
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-radius: 10px; /* opcional */
 }
 
 .headerIcon {
