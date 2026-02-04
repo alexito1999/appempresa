@@ -1,8 +1,7 @@
 #reader {
   width: 100vw;
   height: 100vw;
-  max-width: 700px;
-  max-height: 700px;
+
   margin: 0 auto;
   position: relative;
   overflow: hidden;
@@ -16,6 +15,9 @@
 #camera-container {
   flex: 1;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .headerIcon {
