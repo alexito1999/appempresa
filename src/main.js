@@ -1,4 +1,7 @@
 import { Modal } from "bootstrap";
+import { IconExclamation } from "./icons/IconExclamation.js";
+import { IconValidate } from "./icons/IconValidate.js";
+import $ from "jquery";
 
 const modal = new Modal(document.getElementById("trackerFormModal"));
 
@@ -11,11 +14,11 @@ document.getElementById("startScanner").addEventListener("click", () => {
         ct: document.getElementById("ct").value,
         tipo: document.getElementById("tipoTracker").value,
         numero: document.getElementById("numTracker").value,
-        nombre: document.getElementById("trackerName").value,
+        nombre: document.getElementById("trackerText").textContent,
     };
     localStorage.setItem("trackerData", JSON.stringify(trackerData));
     if (validateForm()) {
-        window.location.href = "./src/scanner.html";
+        window.location.href = "/src/escaner/escaner.html";
     } else {
         alert("Por favor, complete todos los campos del formulario.");
     }
@@ -38,26 +41,29 @@ function applyValidationClass(input, value) {
         input.classList.add("invalido");
     }
 }
+let estadoIcon = false;
 function updateTrackerName() {
-/*     debugger;
- */    const ctInput = document.getElementById("ct");
-    const tipoInput = document.getElementById("tipoTracker");
-    const numInput = document.getElementById("numTracker");
-
-    const ct = ctInput.value.trim();
-    const tipo = tipoInput.value.trim();
-    const num = numInput.value.trim();
-
-    const ctVal = ct !== "" ? ct : "?";
-    const tipoVal = tipo !== "" ? tipo : "?";
-    const numVal = num !== "" ? num : "?";
-
-    applyValidationClass(ctInput, ctVal);
-    applyValidationClass(tipoInput, tipoVal);
-    applyValidationClass(numInput, numVal);
-
-    document.getElementById("trackerName").value =
-        `Tr${ctVal}.${tipoVal}.${numVal}`;
+    const ct = $("#ct").val().trim();
+    const tipo = $("#tipoTracker").val().trim();
+    const num = $("#numTracker").val().trim();
+    applyValidationClass(document.getElementById("ct"), ct);
+    applyValidationClass(document.getElementById("tipoTracker"), tipo);
+    applyValidationClass(document.getElementById("numTracker"), num);
+    const ctVal = ct || "?";
+    const tipoVal = tipo || "?";
+    const numVal = num || "?";
+    const texto = `Tr${ctVal}.${tipoVal}.${numVal}`;
+    const incompleto = [ctVal, tipoVal, numVal].includes("?");
+    $("#trackerText").text(texto);
+    if (incompleto && estadoIcon === false) return;
+    if (!incompleto && estadoIcon === true) return;
+    estadoIcon = !incompleto;
+    const nuevoIcono = incompleto ? IconExclamation(16) : IconValidate(16);
+    $("#trackerIcon")
+        .stop(true, true)
+        .fadeOut(120, function () {
+            $(this).html(nuevoIcono).fadeIn(120);
+        });
 }
 
 document.getElementById("ct").addEventListener("input", updateTrackerName);

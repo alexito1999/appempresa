@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <link rel="stylesheet" href="./style.css" />
-    <link rel="stylesheet" href="./stylesGenerics.css" />
+    <link rel="stylesheet" href="./escaner.css" />
+    <link rel="stylesheet" href="../stylesGenerics.css" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Language" content="es" />
@@ -13,11 +13,18 @@
   <body>
     <div
       id="header"
-      class="w-100 d-flex justify-content-between align-items-center p-3"
+      class="w-100 d-flex position-relative justify-content-between align-items-center p-3"
     >
       <a href="../index.html" id="headerClose" class="headerIcon icon-S"> </a>
-      <a href="./tabla.html" id="headerInventory" class="headerIcon icon-S"></a>
-      <div id="torch" class="headerIcon icon-S"></div>
+      <div id="trackerid" class=""></div>
+      <div class="d-flex flex-row align-items-center gap-5">
+        <a
+          href="../inventario/inventario.html"
+          id="headerInventory"
+          class="headerIcon icon-S"
+        ></a>
+        <div id="torch" class="headerIcon icon-S"></div>
+      </div>
     </div>
     <div id="reader"></div>
     <!-- Modal Bootstrap -->
@@ -55,7 +62,7 @@
         <a href="./src/tabla.html" class="boxIcon icon-XL" id="inventory"> </a>
       </footer> -->
 
-    <script type="module" src="./dispositivo.js"></script>
-    <script type="module" src="./scanner.js"></script>
+    <script type="module" src="../dispositivo.js"></script>
+    <script type="module" src="./escaner.js"></script>
   </body>
 </html>

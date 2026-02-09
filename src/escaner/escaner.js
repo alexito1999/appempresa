@@ -1,10 +1,9 @@
-import { isMobile, isTablet, isDesktop } from "./dispositivo.js";
+import { isMobile, isTablet, isDesktop } from "../dispositivo.js";
 import { Html5Qrcode } from "html5-qrcode";
 
-import { IconHome } from "./icons/IconHome.js";
-import { IconInventory } from "./icons/Iconinventory.js";
-import { IconTorch } from "./icons/IconTorch.js";
-import { IconClose } from "./icons/IconClose.js";
+import { IconInventory } from "../icons/Iconinventory.js";
+import { IconTorch } from "../icons/IconTorch.js";
+import { IconClose } from "../icons/IconClose.js";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
@@ -94,6 +93,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("torch").innerHTML = IconTorch();
     document.getElementById("headerClose").innerHTML = IconClose();
     document.getElementById("headerInventory").innerHTML = IconInventory();
+    const trackerId = localStorage.getItem("trackerData");
+    try {
+        const trackerData = JSON.parse(trackerId);
+        if (!trackerData || !trackerData.nombre) throw new Error();
+        document.getElementById("trackerid").innerHTML = trackerData.nombre;
+    } catch {
+        window.location.href = "../index.html";
+    }
 });
 
 

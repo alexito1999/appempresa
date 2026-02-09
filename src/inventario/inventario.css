@@ -1,0 +1,62 @@
+td,
+th {
+  text-align: center;
+}
+table thead th {
+  background-color: var(--bs-teal) !important;
+  color: var(--bs-white) !important;
+  font-size: 1.2rem;
+}
+
+.titulo-tabla {
+  position: relative;
+  display: inline-block;
+}
+.titulo-tabla::after {
+  content: "";
+  position: absolute;
+  left: -10px; /* Se sale 10px a la izquierda */
+  bottom: -12px; /* Separación debajo del texto */
+  width: 40%; /* Solo 30% del ancho del h1 */
+  height: 4px; /* Grosor de la línea */
+  background-color: #facc15; /* Amarillo (Tailwind amber-400) */
+  border-radius: 2px;
+}
+#tablaCodigos td {
+  padding: 12px;
+  background: #f7f7f7;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.containerTable {
+  padding: 0px 30px;
+}
+table,
+tr,
+td {
+  border: 1px solid #ccc;
+}
+
+.col-lg {
+  width: 40%;
+}
+.col-s {
+  width: 20%;
+}
+#headerInventory {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 30px;
+}
+#tablaHeader {
+  position: sticky;
+  top: 0;
+}
+#tablaCodigos td[contenteditable="true"]:focus {
+  outline: 1px solid var(--bs-teal); /* borde azul */
+  border-radius: 2px;
+}
+#tablaCodigos td[contenteditable="true"] {
+  transition: all 0.15s ease;
+}

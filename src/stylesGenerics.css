@@ -22,6 +22,16 @@ ol {
 #header {
   font-size: 24px;
   background-color: var(--bs-pink);
-  text-align: center;
   height: 10vh;
+  width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
 }
